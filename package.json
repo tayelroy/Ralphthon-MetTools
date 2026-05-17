@@ -1,0 +1,13 @@
+{
+  "name": "meteora-harness-root",
+  "private": true,
+  "workspaces": [
+    "mcp-server",
+    "harness"
+  ],
+  "scripts": {
+    "test": "pnpm -r test",
+    "build": "pnpm -r build",
+    "demo": "tsx scripts/demo.ts"
+  }
+}
