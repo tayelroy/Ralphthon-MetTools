@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "meteora": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Users/tayelroy/Coding/Ralphthon-MetTools/node_modules/.pnpm/tsx@4.22.1/node_modules/tsx/dist/cli.mjs",
+        "mcp-server/src/stdio.ts"
+      ],
+      "cwd": "/Users/tayelroy/Coding/Ralphthon-MetTools"
+    }
+  }
+}
