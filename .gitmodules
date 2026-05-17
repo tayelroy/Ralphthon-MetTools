@@ -1,0 +1,3 @@
+[submodule "meteora-invent"]
+	path = meteora-invent
+	url = https://github.com/MeteoraAg/meteora-invent
