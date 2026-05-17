@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { preloadDocs } from './docs.js';
 import { listDocs } from './tools/list-docs.js';
 import { getActionSchema, type ActionName } from './tools/action-schema.js';
+import { resolveParam } from './tools/resolve-param.js';
 import { getDoc } from './tools/get-doc.js';
 import { searchDocs } from './tools/search-docs.js';
 import { createExecuteGoalHandler, type RunGoalFn } from './tools/execute-goal.js';
@@ -60,6 +61,19 @@ const manifest = [
     },
   },
   {
+    name: 'meteora_resolve_param',
+    description: 'Explains a Meteora launch parameter using docs-backed reference text.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        action: { type: 'string', enum: ['launch-dlmm', 'launch-dbc', 'launch-damm-v1', 'launch-damm-v2'] },
+        param: { type: 'string' },
+      },
+      required: ['action', 'param'],
+      additionalProperties: false,
+    },
+  },
+  {
     name: 'meteora_execute_goal',
     description: 'Executes a natural-language Meteora DeFi goal end-to-end. Launches pools, swaps tokens, or other on-chain actions autonomously. Streams stage-by-stage progress and returns on-chain proof of completion. Use this tool when the user wants to perform a Meteora action.',
     inputSchema: {
@@ -95,6 +109,8 @@ export async function createApp(deps: ServerDeps = {}) {
           return void res.json(await searchDocs(String(req.body?.query ?? '')));
         case 'meteora_get_action_schema':
           return void res.json(await getActionSchema(String(req.body?.action) as ActionName));
+        case 'meteora_resolve_param':
+          return void res.json(await resolveParam(String(req.body?.action) as ActionName, String(req.body?.param ?? '')));
         case 'meteora_execute_goal':
           return void (await executeGoal(String(req.body?.goal ?? ''), res));
         default:
@@ -110,8 +126,10 @@ export async function createApp(deps: ServerDeps = {}) {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const port = Number(process.env.MCP_PORT ?? '3000');
-  const app = await createApp();
-  app.listen(port, () => {
-    console.error(`MCP server listening on ${port}`);
-  });
+  void (async () => {
+    const app = await createApp();
+    app.listen(port, () => {
+      console.error(`MCP server listening on ${port}`);
+    });
+  })();
 }

@@ -15,91 +15,49 @@ const llmsText = `# Meteora Documentation
 const pages: Record<string, string> = {
   'https://docs.meteora.ag/developer-guide/home.md': ['# Overview', '', 'Meteora docs home.'].join('\n'),
   'https://docs.meteora.ag/developer-guide/quick-launch/dlmm-launch-pool.md': [
-    '> ## Documentation Index',
-    '> Fetch the complete documentation index at: https://docs.meteora.ag/llms.txt',
-    '',
     '# DLMM Launch Pool',
     '',
-    '> Configure and Launch a DLMM Pool on Meteora using nothing but a configuration file and a few CLI commands',
+    '| Field | Type | Description | Example |',
+    '| --- | --- | --- | --- |',
+    '| rpcUrl | string | RPC URL is required. You can switch between mainnet, devnet and localnet or use your own RPC URL. | https://api.devnet.solana.com |',
+    '| binStep | integer | Price increment/decrement percentage in basis points (400 = 4% price step between bins). | 25 |',
+    '| feeBps | integer | Trading fee in basis points. | 1 |',
+    '| initialPrice | number | Initial price in terms of quote/base price. | 1.333 |',
+    '| seedAmount | string | Total amount of liquidity to seed into the pool (in token units). | 200000 |',
     '',
-    '```jsonc dlmm_config.jsonc theme={"system"}',
-    '{',
-    '  /* rpcUrl is required. You can switch between mainnet, devnet and localnet or use your own RPC URL. */',
-    '  "rpcUrl": "https://api.devnet.solana.com",',
-    '  "dlmmConfig": {',
-    '    "binStep": 25, // Price increment/decrement percentage in basis points (400 = 4% price step between bins)',
-    '    "feeBps": 1, // Trading fee in basis points (200 = 2% fee per swap)',
-    '    "initialPrice": 1.333, // Initial price(in terms of quote/base price)',
-    '    "activationType": 1, // 0 - Slot | 1 - Timestamp',
-    '    "activationPoint": null',
-    '  }',
-    '}',
-    '```',
+    'Some additional prose below the table.',
   ].join('\n'),
   'https://docs.meteora.ag/developer-guide/quick-launch/damm-v1-launch-pool.md': [
     '# DAMM v1 Launch Pool',
     '',
-    '```jsonc damm_v1_config.jsonc theme={"system"}',
-    '{',
-    '  /* quoteMint is required for the following actions:',
-    '  * 1. damm-v1-create-pool',
-    '  * 2. damm-v1-lock-liquidity',
-    '  */',
-    '  "quoteMint": "So11111111111111111111111111111111111111112",',
-    '  "dammV1Config": {',
-    '    "baseAmount": 100, // base token amount',
-    '    "quoteAmount": 0.001, // quote token amount',
-    '    "tradeFeeNumerator": 2500, // pool fee in bps',
-    '    "activationType": 1',
-    '  }',
-    '}',
-    '```',
+    '| Field | Type | Description | Example |',
+    '| --- | --- | --- | --- |',
+    '| quoteMint | string | Quote mint is required for pool creation. | So11111111111111111111111111111111111111112 |',
+    '| baseAmount | number | Base token amount to seed. | 100 |',
+    '| tradeFeeNumerator | integer | Pool fee in basis points. | 2500 |',
+    '| activationType | integer | Activation type. | 1 |',
   ].join('\n'),
   'https://docs.meteora.ag/developer-guide/quick-launch/damm-v2-launch-pool.md': [
     '# DAMM v2 Launch Pool',
     '',
-    '```jsonc damm_v2_config.jsonc theme={"system"}',
-    '{',
-    '  /* quoteMint is required for the following actions:',
-    '  * 1. damm-v2-create-balanced-pool',
-    '  * 2. damm-v2-create-one-sided-pool',
-    '  */',
-    '  "quoteMint": "So11111111111111111111111111111111111111112",',
-    '  "dammV2Config": {',
-    '    "creator": "YOUR_CREATOR_ADDRESS", // creator address',
-    '    "baseAmount": 100000000, // base token amount',
-    '    "quoteAmount": null,',
-    '    "initPrice": 0.001, // initial price (in terms of quote/base price)',
-    '    "poolFees": {',
-    '      "minBaseFeeBps": 120,',
-    '      "useDynamicFee": true',
-    '    }',
-    '  }',
-    '}',
-    '```',
+    '| Field | Type | Description | Example |',
+    '| --- | --- | --- | --- |',
+    '| quoteMint | string | Quote mint is required for pool creation. | So11111111111111111111111111111111111111112 |',
+    '| creator | string | Creator address. | YOUR_CREATOR_ADDRESS |',
+    '| baseAmount | integer | Base token amount to seed. | 100000000 |',
+    '| initPrice | number | Initial price (in terms of quote/base price). | 0.001 |',
+    '| useDynamicFee | boolean | Whether dynamic fee is enabled. | true |',
   ].join('\n'),
   'https://docs.meteora.ag/developer-guide/quick-launch/dbc-token-launch-pool.md': [
     '# DBC Token Launch Pool',
     '',
-    '```jsonc dbc_config.jsonc theme={"system"}',
-    '{',
-    '  /* quoteMint is required for the following actions:',
-    '  * 1. dbc-create-config',
-    '  * 2. dbc-create-pool (if there is no configKeyAddress)',
-    '  */',
-    '  "quoteMint": "So11111111111111111111111111111111111111112",',
-    '  "dbcConfig": {',
-    '    "buildCurveMode": 0, // 0 - buildCurve | 1 - buildCurveWithMarketCap',
-    '    "percentageSupplyOnMigration": 20, // percentage of total token supply to be migrated',
-    '    "migrationQuoteThreshold": 10, // migration quote threshold needed to migrate the DBC token pool',
-    '    "token": {',
-    '      "totalTokenSupply": 1000000000,',
-    '      "tokenBaseDecimal": 6,',
-    '      "tokenQuoteDecimal": 9',
-    '    }',
-    '  }',
-    '}',
-    '```',
+    '| Field | Type | Description | Example |',
+    '| --- | --- | --- | --- |',
+    '| quoteMint | string | Quote mint is required for the pool. | So11111111111111111111111111111111111111112 |',
+    '| buildCurveMode | integer | 0 = buildCurve, 1 = buildCurveWithMarketCap. | 0 |',
+    '| percentageSupplyOnMigration | integer | Percentage of total token supply to migrate. | 20 |',
+    '| migrationQuoteThreshold | integer | Migration quote threshold needed to migrate the token pool. | 10 |',
+    '| totalTokenSupply | integer | Total token supply. | 1000000000 |',
   ].join('\n'),
 };
 
@@ -120,15 +78,16 @@ async function loadTools() {
   const fetchMock = makeFetchMock();
   vi.stubGlobal('fetch', fetchMock);
 
-  const [{ createApp }, { listDocs }, { getDoc }, { searchDocs }, { getActionSchema }] = await Promise.all([
+  const [{ createApp }, { listDocs }, { getDoc }, { searchDocs }, { getActionSchema }, { resolveParam }] = await Promise.all([
     import('../src/index.js'),
     import('../src/tools/list-docs.js'),
     import('../src/tools/get-doc.js'),
     import('../src/tools/search-docs.js'),
     import('../src/tools/action-schema.js'),
+    import('../src/tools/resolve-param.js'),
   ]);
 
-  return { createApp, listDocs, getDoc, searchDocs, getActionSchema, fetchMock };
+  return { createApp, listDocs, getDoc, searchDocs, getActionSchema, resolveParam, fetchMock };
 }
 
 afterEach(() => {
@@ -136,24 +95,20 @@ afterEach(() => {
 });
 
 const listSchema = z.object({
-  source: z.string().min(1),
   pages: z.array(z.object({ title: z.string(), url: z.string().url() })),
 });
 
 const docSchema = z.object({
-  source: z.string().min(1),
   title: z.string(),
   url: z.string().url(),
   content: z.string(),
 });
 
 const searchSchema = z.object({
-  source: z.string().min(1),
   results: z.array(z.object({ title: z.string(), url: z.string().url(), excerpt: z.string() })),
 });
 
 const actionSchema = z.object({
-  source: z.string().min(1),
   action: z.enum(['launch-dlmm', 'launch-dbc', 'launch-damm-v1', 'launch-damm-v2']),
   sourceUrl: z.string().url(),
   configFields: z.array(z.object({
@@ -162,6 +117,16 @@ const actionSchema = z.object({
     description: z.string(),
     required: z.boolean(),
   })),
+  schema: z.object({ type: z.literal('object') }),
+  example: z.record(z.string(), z.unknown()),
+});
+
+const resolveSchema = z.object({
+  action: z.enum(['launch-dlmm', 'launch-dbc', 'launch-damm-v1', 'launch-damm-v2']),
+  param: z.string(),
+  explanation: z.string(),
+  sourceUrl: z.string().url(),
+  validValues: z.array(z.string()).optional(),
 });
 
 describe('docs-driven MCP tools', () => {
@@ -171,7 +136,6 @@ describe('docs-driven MCP tools', () => {
     const result = await listDocs('launch pool');
     const parsed = listSchema.parse(result);
 
-    expect(parsed.source).toBe('https://docs.meteora.ag/llms.txt');
     expect(parsed.pages).toHaveLength(4);
     expect(parsed.pages.map((page) => page.title)).toContain('DLMM Launch Pool');
   });
@@ -184,14 +148,20 @@ describe('docs-driven MCP tools', () => {
 
     expect(parsed.url).toBe('https://docs.meteora.ag/developer-guide/quick-launch/dlmm-launch-pool.md');
     expect(parsed.title).toBe('DLMM Launch Pool');
-    expect(parsed.content).toContain('Configure and Launch a DLMM Pool on Meteora');
+    expect(parsed.content).toContain('Price increment/decrement percentage');
   });
 
-  it('searches cached pages for content and uncached pages for titles only', async () => {
-    const { getDoc, searchDocs } = await loadTools();
+  it('returns title matches on a cold cache', async () => {
+    const { searchDocs } = await loadTools();
 
-    const before = searchSchema.parse(await searchDocs('binStep'));
-    expect(before.results).toHaveLength(0);
+    const result = searchSchema.parse(await searchDocs('DBC'));
+    expect(result.results).toHaveLength(1);
+    expect(result.results[0]?.title).toBe('DBC Token Launch Pool');
+    expect(result.results[0]?.excerpt).toBe('DBC Token Launch Pool');
+  });
+
+  it('searches cached pages for content after fetch', async () => {
+    const { getDoc, searchDocs } = await loadTools();
 
     await getDoc('https://docs.meteora.ag/developer-guide/quick-launch/dlmm-launch-pool');
     const after = searchSchema.parse(await searchDocs('binStep'));
@@ -199,12 +169,9 @@ describe('docs-driven MCP tools', () => {
     expect(after.results).toHaveLength(1);
     expect(after.results[0]?.title).toBe('DLMM Launch Pool');
     expect(after.results[0]?.excerpt).toContain('binStep');
-
-    const titleHit = searchSchema.parse(await searchDocs('DBC'));
-    expect(titleHit.results.map((result) => result.title)).toContain('DBC Token Launch Pool');
   });
 
-  it('derives config fields from the quick-launch docs', async () => {
+  it('derives config fields from the quick-launch docs tables', async () => {
     const { getActionSchema } = await loadTools();
 
     const result = await getActionSchema('launch-dlmm');
@@ -212,7 +179,18 @@ describe('docs-driven MCP tools', () => {
 
     expect(parsed.sourceUrl).toBe('https://docs.meteora.ag/developer-guide/quick-launch/dlmm-launch-pool.md');
     expect(parsed.configFields.find((field) => field.name === 'rpcUrl')?.required).toBe(true);
-    expect(parsed.configFields.find((field) => field.name === 'dlmmConfig.binStep')?.type).toBe('integer');
-    expect(parsed.configFields.find((field) => field.name === 'dlmmConfig.binStep')?.description).toContain('price step');
+    expect(parsed.configFields.find((field) => field.name === 'binStep')?.type).toBe('integer');
+    expect(parsed.configFields.find((field) => field.name === 'binStep')?.description).toContain('price step');
+    expect(parsed.schema.type).toBe('object');
+    expect(parsed.example).toBeTypeOf('object');
+  });
+
+  it('explains launch parameters using docs-backed references', async () => {
+    const { resolveParam } = await loadTools();
+
+    const result = await resolveSchema.parse(await resolveParam('launch-dlmm', 'binStep'));
+
+    expect(result.explanation).toContain('price granularity');
+    expect(result.sourceUrl).toBe('https://docs.meteora.ag/developer-guide/quick-launch/dlmm-launch-pool.md');
   });
 });

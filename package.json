@@ -1,13 +1,14 @@
 {
   "name": "meteora-harness-root",
   "private": true,
+  "packageManager": "pnpm@10.33.2",
   "workspaces": [
     "mcp-server",
     "harness"
   ],
   "scripts": {
-    "test": "pnpm -r test",
-    "build": "pnpm -r build",
-    "demo": "tsx scripts/demo.ts"
+    "test": "corepack pnpm -r test",
+    "build": "corepack pnpm -r build",
+    "demo": "corepack pnpm --filter harness exec tsx ../scripts/demo.ts"
   }
 }

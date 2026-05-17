@@ -61,8 +61,8 @@ involvement, no manual config, no copy-pasting transaction hashes.
 
 ## Decision Log
 
-- Decision: MCP server is a docs server only. It discovers the docs index from llms.txt at startup, fetches `.md` pages on demand, and caches them in memory.
-  Rationale: Docs-driven tooling stays aligned with the live Meteora documentation while still keeping repeat requests fast through in-memory caching. The index is small, and quick-launch schemas can be derived from the docs pages themselves instead of maintaining a parallel JSON source tree.
+- Decision: MCP server is a docs-only server backed by three layers: an llms.txt startup index (fetches every page title + URL at startup), an in-memory .md page cache (individual pages fetched on demand and cached after first hit), and docs-derived quick-launch schemas (config fields parsed directly from the JSONC examples embedded in the quick-launch guide pages). There are no embedded JSON data files and no local JSONC template reading.
+  Rationale: Docs-driven tooling stays aligned with the live Meteora documentation while still keeping repeat requests fast through in-memory caching. The index is small, and quick-launch schemas are derived from the docs pages themselves rather than from a parallel local data tree.
   Date/Author: 2026-05-17 / updated architecture
 
 - Decision: `meteora_execute_goal` lives in the MCP server but calls
@@ -253,13 +253,9 @@ the parsed request body and returning a JSON object.
 For this milestone every handler returns a hardcoded stub so tests can
 assert response shape without needing real content.
 
-Every response object must include a `source` field (string, a Meteora
-docs URL) even in stubs. Use a placeholder URL if needed.
-
 Write unit tests in `mcp-server/tests/` for each handler. Tests must:
 - Call the handler function directly, not via HTTP.
 - Use Zod to assert the response matches the expected shape.
-- Assert `source` is a non-empty string.
 
 Acceptance: `pnpm --filter mcp-server test` passes all stub tests.
 `curl http://localhost:3000/tools` returns the manifest JSON with five

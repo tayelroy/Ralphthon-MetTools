@@ -39,12 +39,13 @@ describe('MCP server manifest', () => {
     expect(response.ok).toBe(true);
     const body = await response.json() as { tools: Array<{ name: string; description: string; inputSchema: unknown }> };
 
-    expect(body.tools).toHaveLength(5);
+    expect(body.tools).toHaveLength(6);
     expect(body.tools.map((tool) => tool.name)).toEqual([
       'meteora_list_docs',
       'meteora_get_doc',
       'meteora_search_docs',
       'meteora_get_action_schema',
+      'meteora_resolve_param',
       'meteora_execute_goal',
     ]);
 
